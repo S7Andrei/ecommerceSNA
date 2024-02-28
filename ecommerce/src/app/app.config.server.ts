@@ -37,6 +37,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatToolbarModule} from '@angular/material/toolbar';
 const serverConfig: ApplicationConfig = {
+  {path: 'restrito',component: RestritoComponent, canActivate: [GuardGuard]},
   providers: [
     provideServerRendering(),
     MatButtonModule,
