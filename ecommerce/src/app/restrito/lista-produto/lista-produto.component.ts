@@ -1,12 +1,45 @@
-import { Component } from '@angular/core';
-
+import { Component} from '@angular/core';
+import { Router } from '@angular/router';
+import { Produto } from 'src/app/models/Produto.model';
+import { ProdutoService } from 'src/app/produto.service';
 @Component({
-  selector: 'app-lista-produto',
-  standalone: true,
-  imports: [],
-  templateUrl: './lista-produto.component.html',
-  styleUrl: './lista-produto.component.css'
+selector: 'app-lista-produto',
+templateUrl: './lista-produto.component.html',
+styleUrls: ['./lista-produto.component.css']
 })
 export class ListaProdutoComponent {
-
+public produtos: Produto[] = [ ];
+constructor(private _produtoService: ProdutoService,
+private router:Router){}
+ngOnInit():void{
+this.listarProdutos();
+}
+listarProdutos():void{
+this._produtoService.getProdutos()
+.subscribe(
+retornaProduto => {
+this.produtos = retornaProduto.map(
+item => {
+return new Produto(
+item.id,
+item.produto,
+item.descricao,
+item.foto,
+item.preco
+);
+}
+)
+}
+)
+}
+excluir(id: number){
+this._produtoService.removerProduto(id).subscribe(
+produto => {
+this.listarProdutos();
+},
+err => {console.log("erro ao Excluir")}
+);
+// window.location.href = "/restrito/lista";
+this.router.navigate(["/restrito/lista"]);
+}
 }
