@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
-
+import { Router } from '@angular/router';
+import { LoginService } from 'src/app/login.service';
 @Component({
-  selector: 'app-restrito',
-  standalone: true,
-  imports: [],
-  templateUrl: './restrito.component.html',
-  styleUrl: './restrito.component.css'
+selector: 'app-menu-restrito',
+templateUrl: './menu-restrito.component.html',
+styleUrls: ['./menu-restrito.component.css']
 })
-export class RestritoComponent {
-
+export class MenuRestritoComponent {
+constructor(private router: Router,
+private _loginService: LoginService){}
+logout(){
+localStorage.clear();
+this._loginService.setMostraMenu(true);
+this.router.navigate(['/login']);
 }
